@@ -1,6 +1,6 @@
 {
   "name": "jsx-svg-preview",
-  "version": "1.0.1",
+  "version": "1.0.8",
   "description": "Tool for importing, previewing and formatting svg files",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/Egrom92/jsx-svg-preview#readme",
   "dependencies": {
-    "minimist": "^1.2.8"
+    "yargs": "^17.7.1"
   }
 }
