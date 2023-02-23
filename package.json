@@ -1,0 +1,26 @@
+{
+  "name": "jsx-svg-preview",
+  "version": "1.0.1",
+  "description": "Tool for importing, previewing and formatting svg files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Egrom92/jsx-svg-preview.git"
+  },
+  "author": "Roman Egliens",
+  "license": "ISC",
+  "preferGlobal": true,
+  "bin": {
+    "jsp": "index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/Egrom92/jsx-svg-preview/issues"
+  },
+  "homepage": "https://github.com/Egrom92/jsx-svg-preview#readme",
+  "dependencies": {
+    "minimist": "^1.2.8"
+  }
+}
