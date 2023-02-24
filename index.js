@@ -1,6 +1,14 @@
-// const argv = require('minimist')(process.argv.slice(2));
-// console.log(argv.p)
-// const svgFolder = argv.p;
+#!/usr/bin/env node
+
+const yargs = require('yargs');
+
+const argv = yargs.option('p', {
+    alias: 'path',
+    describe: 'The path to the SVG folder',
+    demandOption: true, // make the option required
+    type: 'string', // specify the type of the option
+}).argv;
+const svgFolderPath = argv.path;
 const fs = require('fs').promises;
 const path = require('path');
 
@@ -22,7 +30,7 @@ function transformFileName(str) {
     return newParts.join('-'); // Join the parts with hyphens
 }
 
-fs.readdir('./src/svg')
+fs.readdir(svgFolderPath)
     .then((files) => {
         const JSXFiles = [];
         let imports = '';
@@ -36,8 +44,8 @@ fs.readdir('./src/svg')
                 JSXFiles.push(useExportTemplateSnippet(fileName));
                 previews.push(useSvgPreviewSnipet(fileName));
             } else if (path.extname(file) === '.svg') {
-                const oldPath = path.join('./src/svg', file);
-                const newPath = path.join('./src/svg', `${fileName}.jsx`);
+                const oldPath = path.join(svgFolderPath, file);
+                const newPath = path.join(svgFolderPath, `${fileName}.jsx`);
 
                 try {
                     fs.rename(oldPath, newPath);
@@ -67,13 +75,13 @@ fs.readdir('./src/svg')
 
         const previewsSnipet = `\nconst SVGPreview = () => {\n    return (\n        <div style={{padding: '60px'}}>\n${previews.join(
             ''
-        )}\n        </div>\n    )\n}\n`;
+        )}        </div>\n    )\n}\n`;
         const exportSnippet = `\nexport {\n    SVGPreview,\n${JSXFiles.join(
             ''
         )}};\n`;
 
         return fs.writeFile(
-            './src/svg/index.js',
+            svgFolderPath + '/index.js',
             imports + previewsSnipet + exportSnippet
         );
     })
