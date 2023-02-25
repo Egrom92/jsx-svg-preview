@@ -1,77 +1,31 @@
 #!/usr/bin/env node
 
-const {
-    useImportTemplateSnippet,
-    useSvgPreviewSnippet,
-    useExportTemplateSnippet,
-    useJsxTemplateSnippet,
-    useAllSvgPreviewsSnipet,
-    useExportAllSvgSnippet,
-} = require('./snipets.js');
-
 const yargs = require('yargs');
+const fs = require('fs').promises;
+const path = require('path');
+const { generateIndexFile, renameSvgFiles, updateSvgFile } = require('./utils');
 
 const argv = yargs.option('p', {
     alias: 'path',
     describe: 'The path to the SVG folder',
-    demandOption: true, // make the option required
-    type: 'string', // specify the type of the option
+    demandOption: true,
+    type: 'string',
 }).argv;
 const svgFolderPath = argv.path;
-const fs = require('fs').promises;
-const path = require('path');
 
-fs.readdir(svgFolderPath)
-    .then((files) => {
-        const JSXFiles = [];
-        let imports = '';
-        let previews = [];
+async function main() {
+    const files = await fs.readdir(svgFolderPath);
+    const svgFiles = files.filter((file) => path.extname(file) === '.svg');
 
-        files.forEach((file) => {
-            const fileName = path.parse(file).name;
+    await Promise.all(
+        svgFiles.map((file) => updateSvgFile(path.join(svgFolderPath, file)))
+    );
 
-            if (path.extname(file) === '.jsx') {
-                imports += useImportTemplateSnippet(fileName);
-                JSXFiles.push(useExportTemplateSnippet(fileName));
-                previews.push(useSvgPreviewSnippet(fileName));
-            } else if (path.extname(file) === '.svg') {
-                const oldPath = path.join(svgFolderPath, file);
-                const newPath = path.join(svgFolderPath, `${fileName}.jsx`);
+    await renameSvgFiles(svgFolderPath, svgFiles);
+    const jsxFiles = files.filter((file) => path.extname(file) === '.jsx');
+    generateIndexFile(svgFolderPath, jsxFiles);
 
-                try {
-                    fs.rename(oldPath, newPath);
-                    imports += useImportTemplateSnippet(fileName);
-                    JSXFiles.push(useExportTemplateSnippet(fileName));
-                    previews.push(useSvgPreviewSnippet(fileName));
-                    console.log('File renamed successfully');
+    console.log('Updated!');
+}
 
-                    fs.readFile(newPath, 'utf8').then((data) => {
-                        const svgString = data.toString();
-                        const newSvgString = svgString.replace(
-                            /<svg/g,
-                            `<svg className={classes}`
-                        );
-                        fs.writeFile(
-                            newPath,
-                            useJsxTemplateSnippet(fileName, newSvgString)
-                        );
-                    });
-                } catch (err) {
-                    console.error(err);
-                }
-            }
-        });
-
-        return fs.writeFile(
-            svgFolderPath + '/index.js',
-            imports +
-                useAllSvgPreviewsSnipet(previews) +
-                useExportAllSvgSnippet(JSXFiles)
-        );
-    })
-    .then(() => {
-        console.log('Updated!');
-    })
-    .catch((err) => {
-        console.error(err);
-    });
+main().catch(console.error);

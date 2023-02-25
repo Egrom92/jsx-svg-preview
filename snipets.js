@@ -18,7 +18,7 @@ const useJsxTemplateSnippet = (fileName, newSvgString) => {
     )}\${className ? ' ' + className : ''}\`;\n\n    return (\n        ${newSvgString}\n    );\n};\n\nexport default ${fileName};`;
 };
 
-const useAllSvgPreviewsSnipet = (previews) => {
+const useAllSvgPreviewsSnippet = (previews) => {
     return `\nconst SVGPreview = () => {\n    return (\n        <div style={{padding: '60px'}}>\n${previews.join(
         ''
     )}        </div>\n    )\n}\n`;
@@ -33,6 +33,6 @@ module.exports = {
     useSvgPreviewSnippet,
     useExportTemplateSnippet,
     useJsxTemplateSnippet,
-    useAllSvgPreviewsSnipet,
+    useAllSvgPreviewsSnippet,
     useExportAllSvgSnippet,
 };
