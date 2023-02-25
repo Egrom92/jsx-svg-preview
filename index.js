@@ -16,14 +16,14 @@ const svgFolderPath = argv.path;
 async function main() {
     const files = await fs.readdir(svgFolderPath);
     const svgFiles = files.filter((file) => path.extname(file) === '.svg');
+    const jsxFiles = files.filter((file) => path.extname(file) === '.jsx');
 
     await Promise.all(
         svgFiles.map((file) => updateSvgFile(path.join(svgFolderPath, file)))
     );
 
-    await renameSvgFiles(svgFolderPath, svgFiles);
-    const jsxFiles = files.filter((file) => path.extname(file) === '.jsx');
-    generateIndexFile(svgFolderPath, jsxFiles);
+    const newJsxFiles = await renameSvgFiles(svgFolderPath, svgFiles);
+    generateIndexFile(svgFolderPath, [...jsxFiles, ...newJsxFiles]);
 
     console.log('Updated!');
 }
