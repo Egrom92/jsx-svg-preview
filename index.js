@@ -11,12 +11,41 @@ const argv = yargs.option('p', {
     demandOption: true,
     type: 'string',
 }).argv;
-const svgFolderPath = argv.path;
 
 async function main() {
+    const svgFolderPath = argv.path;
+
+    if (!svgFolderPath) {
+        console.error(
+            'The -p parameter is required. Please provide the path to the SVG folder.'
+        );
+        process.exit(1);
+    }
+
+    try {
+        await fs.access(svgFolderPath, fs.constants.F_OK);
+    } catch (err) {
+        console.warn(`Warning: The folder ${svgFolderPath} does not exist.`);
+        return;
+    }
+
     const files = await fs.readdir(svgFolderPath);
-    const svgFiles = files.filter((file) => path.extname(file) === '.svg');
-    const jsxFiles = files.filter((file) => path.extname(file) === '.jsx');
+    const [svgFiles, jsxFiles] = files.reduce(
+        ([svgs, jsxs], file) => {
+            const ext = path.extname(file);
+            return ext === '.svg'
+                ? [[...svgs, file], jsxs]
+                : ext === '.jsx'
+                ? [svgs, [...jsxs, file]]
+                : [svgs, jsxs];
+        },
+        [[], []]
+    );
+
+    if (svgFiles.length === 0 && jsxFiles.length === 0) {
+        console.log('No .svg and .jsx files found in the folder');
+        return;
+    }
 
     await Promise.all(
         svgFiles.map((file) => updateSvgFile(path.join(svgFolderPath, file)))
