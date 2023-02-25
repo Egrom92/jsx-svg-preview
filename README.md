@@ -33,7 +33,7 @@ my-svg-folder/
 You can convert these SVG files into React components using jsp as follows:
 
 ```
-jsp -p my-svg-folder
+jsp -p <path-to-svg-folder>
 ```
 
 This will generate the following files:
