@@ -80,11 +80,11 @@ This will display all SVG components on a separate page.
 
 ## License
 ---
-This package is licensed under the MIT license. See the [LICENSE](https://github.com/Egrom92/jsx-svg-preview/blob/main/LICENSE) file for more information.
+This package is licensed under the MIT license. See the [LICENSE](https://github.com/Egrom92/jsx-svg-preview/blob/master/LICENSE) file for more information.
 
 ## Contributing
 ---
-Contributions to this package are always welcome! Please see the [CONTRIBUTING](https://github.com/Egrom92/jsx-svg-preview/blob/main/CONTRIBUTING.md) file for more information.
+Contributions to this package are always welcome! Please see the [CONTRIBUTING](https://github.com/Egrom92/jsx-svg-preview/blob/master/CONTRIBUTING.md) file for more information.
 
 ## Issues
 ---
