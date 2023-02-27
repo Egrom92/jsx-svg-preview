@@ -19,7 +19,7 @@ const useJsxTemplateSnippet = (fileName, newSvgString) => {
 };
 
 const useAllSvgPreviewsSnippet = (previews) => {
-    return `\nconst SVGPreview = () => {\n    return (\n        <div style={{padding: '60px'}}>\n${previews.join(
+    return `\nconst SVGPreview = () => {\n    return (\n        <div style={{padding: '60px', backgroundColor: "#afafaf"}}>\n${previews.join(
         ''
     )}        </div>\n    )\n}\n`;
 };
