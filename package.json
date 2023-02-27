@@ -1,11 +1,33 @@
 {
   "name": "jsx-svg-preview",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Tool for importing, previewing and formatting svg files",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "jsx",
+    "svg",
+    "react",
+    "preview",
+    "component",
+    "conversion",
+    "optimization",
+    "automation",
+    "development",
+    "productivity",
+    "design",
+    "UI",
+    "UX",
+    "front-end",
+    "web",
+    "library",
+    "code",
+    "tool",
+    "framework",
+    "project"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Egrom92/jsx-svg-preview.git"
