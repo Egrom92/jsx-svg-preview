@@ -35,7 +35,7 @@ async function main() {
             const ext = path.extname(file);
             return ext === '.svg'
                 ? [[...svgs, file], jsxs]
-                : ext === '.jsx'
+                : ext === '.js'
                 ? [svgs, [...jsxs, file]]
                 : [svgs, jsxs];
         },

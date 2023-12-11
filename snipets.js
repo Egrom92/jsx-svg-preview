@@ -1,7 +1,7 @@
 const { transformFileName } = require('./helpers.js');
 
 const useImportTemplateSnippet = (fileName) => {
-    return `import ${fileName} from './${fileName}.jsx';\n`;
+    return `import ${fileName} from './${fileName}.js';\n`;
 };
 
 const useSvgPreviewSnippet = (fileName) => {
